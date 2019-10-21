@@ -1,0 +1,17 @@
+.navbar {
+  background: white;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.links {
+  list-style: none;
+}
+
+.links li {
+  display: inline-block;
+  margin-right: 25px;
+}

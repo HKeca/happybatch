@@ -3,7 +3,7 @@ module.exports = {
   devtool: "source-map",
   entry: ["./src/app.tsx"],
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js", ".scss"]
   },
   module: {
     rules: [
@@ -15,6 +15,10 @@ module.exports = {
             loader: "ts-loader"
           }
         ]
+      },
+      {
+        test: /\.(s*)css$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         enforce: "pre",
