@@ -7,6 +7,11 @@
   padding: 20px 0;
 }
 
+.navbar-header {
+  font-size: 1.3em;
+  font-weight: normal;
+}
+
 .links {
   list-style: none;
 }
@@ -14,4 +19,10 @@
 .links li {
   display: inline-block;
   margin-right: 25px;
+}
+
+.navbar-link {
+  color: black;
+  font-size: 1em;
+  text-decoration: none;
 }
