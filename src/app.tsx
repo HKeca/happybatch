@@ -5,11 +5,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./styles/app.scss";
 
 import Home from "./pages/Home";
+import Favourites from "./pages/Favourites";
 
 const App = () => (
   <Router>
     <Switch>
-      <Route path="/" component={Home} />
+      <Route exact path="/" component={Home} />
+      <Route path="/favourites" component={Favourites} />
     </Switch>
   </Router>
 );
