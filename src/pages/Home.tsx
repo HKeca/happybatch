@@ -20,7 +20,13 @@ class Home extends React.Component<{}, State> {
     let response = await fetch("https://www.reddit.com/r/UpliftingNews/.json");
 
     let tmpPosts = await response.json();
-    let posts = tmpPosts.data.children.map((p: any) => p.data);
+    let savedPosts = JSON.parse(localStorage.getItem("saved")) || [];
+
+    // flatten data.children and add a saved flag to each post
+    let posts = tmpPosts.data.children.map((p: any) => {
+      p.data.saved = savedPosts.includes(p.data.name);
+      return p.data;
+    });
 
     this.setState({
       posts

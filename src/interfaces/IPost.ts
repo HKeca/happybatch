@@ -4,4 +4,5 @@ interface IPost {
   thumbnail: string;
   url: string;
   name: string;
+  saved: boolean;
 }
