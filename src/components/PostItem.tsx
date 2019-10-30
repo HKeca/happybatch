@@ -80,7 +80,8 @@ class PostItem extends React.Component<Props, State> {
             onClick={postSaved ? this.removeSave : this.savePost}
             dangerouslySetInnerHTML={{
               __html: feather.icons.bookmark.toSvg({
-                color: postSaved ? "white" : "grey"
+                color: postSaved ? "white" : "grey",
+                class: "card-svg"
               })
             }}
           ></div>

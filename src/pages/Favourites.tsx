@@ -23,11 +23,13 @@ class Favourites extends React.Component<{}, State> {
     let savedPosts: Array<string> =
       JSON.parse(localStorage.getItem("saved")) || [];
 
+    // Flatten response
     let posts = tmpPosts.data.children.map((p: any) => {
       p.data.saved = savedPosts.includes(p.data.name);
       return p.data;
     });
 
+    // Filter out non saved posts
     posts = posts.filter((p: IPost) => savedPosts.includes(p.name));
 
     this.setState({
