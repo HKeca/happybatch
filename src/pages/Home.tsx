@@ -5,6 +5,7 @@ import PostItem from "../components/PostItem";
 
 interface State {
   posts: IPost[];
+  sortDirection: string;
 }
 
 class Home extends React.Component<{}, State> {
@@ -12,8 +13,11 @@ class Home extends React.Component<{}, State> {
     super(props);
 
     this.state = {
-      posts: []
+      posts: [],
+      sortDirection: "DF"
     };
+
+    this.sortPosts = this.sortPosts.bind(this);
   }
 
   async componentDidMount() {
@@ -33,12 +37,58 @@ class Home extends React.Component<{}, State> {
     });
   }
 
+  _sort(posts: Array<IPost>) {
+    posts.sort((a: IPost, b: IPost) => {
+      if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+      if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+
+      return 0;
+    });
+
+    return posts;
+  }
+
+  sortPosts() {
+    const { sortDirection, posts } = this.state;
+
+    switch (sortDirection) {
+      case "DF":
+        {
+          let sorted = this._sort(posts);
+
+          this.setState({ posts: sorted, sortDirection: "AZ" });
+        }
+        break;
+      case "AZ":
+        {
+          let sorted = this._sort(posts).reverse();
+
+          this.setState({ posts: sorted, sortDirection: "ZA" });
+        }
+        break;
+      case "ZA":
+        {
+          let sorted = this._sort(posts);
+
+          this.setState({ posts: sorted, sortDirection: "AZ" });
+        }
+        break;
+
+      default:
+        console.error("unknown sort method");
+        break;
+    }
+  }
+
   render() {
-    const { posts } = this.state;
+    const { posts, sortDirection } = this.state;
 
     return (
       <div>
         <Navbar />
+        <button className="posts-sort" onClick={this.sortPosts}>
+          {sortDirection}
+        </button>
         <div className="posts">
           {posts && posts.map((p: IPost) => <PostItem key={p.name} post={p} />)}
         </div>

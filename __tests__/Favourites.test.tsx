@@ -5,7 +5,15 @@ import Favourites from "../src/pages/Favourites";
 
 let saved: Array<string> = ["t3_dozu5d"];
 
-let savedPosts = [{ name: "t3_dozu5d", saved: true }];
+let savedPosts = [
+  {
+    url:
+      "https://b.thumbs.redditmedia.com/6ZjU5BCa0RlKD5LOOTPMoCFZAsoMmO3JMcpuVn66EPs.jpg",
+    title: "bob",
+    name: "t3_dozu5d",
+    saved: true
+  }
+];
 
 describe("Test favourites page", () => {
   beforeEach(() => {

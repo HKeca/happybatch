@@ -4,3 +4,21 @@
   flex-direction: column;
   align-items: center;
 }
+
+.posts-sort {
+  cursor: pointer;
+  position: fixed;
+  left: 10%;
+  top: 20%;
+  border: none;
+  background: white;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 1.2em;
+
+  box-shadow: 0 1px 30px rgba(0, 0, 0, 0.06);
+}
+
+.posts-sort:focus {
+  outline: none;
+}
