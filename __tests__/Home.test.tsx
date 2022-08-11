@@ -40,7 +40,7 @@ let correctPostOrderOpposite = [
 
 let saved: Array<string> = ["t3_dozu5d"];
 
-describe("Home tests", () => {
+describe.skip("Home tests", () => {
   beforeEach(() => {
     localStorage.setItem("saved", JSON.stringify(saved));
   });

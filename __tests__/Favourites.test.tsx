@@ -15,7 +15,7 @@ let savedPosts = [
   }
 ];
 
-describe("Test favourites page", () => {
+describe.skip("Test favourites page", () => {
   beforeEach(() => {
     localStorage.setItem("saved", JSON.stringify(saved));
   });
