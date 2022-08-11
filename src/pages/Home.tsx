@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar";
 import PostItem from "../components/PostItem";
@@ -8,36 +8,29 @@ interface State {
   sortDirection: string;
 }
 
-class Home extends React.Component<{}, State> {
-  constructor(props: any) {
-    super(props);
+const Home: FC<{}> = () => {
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [sortDirection, setSortDirection] = useState("DF");
 
-    this.state = {
-      posts: [],
-      sortDirection: "DF"
-    };
 
-    this.sortPosts = this.sortPosts.bind(this);
-  }
+  useEffect(() => {
+    (async () => {
+      let response = await fetch("https://www.reddit.com/r/UpliftingNews/.json");
 
-  async componentDidMount() {
-    let response = await fetch("https://www.reddit.com/r/UpliftingNews/.json");
+      let tmpPosts = await response.json();
+      let savedPosts = JSON.parse(localStorage.getItem("saved")) || [];
 
-    let tmpPosts = await response.json();
-    let savedPosts = JSON.parse(localStorage.getItem("saved")) || [];
+      // flatten data.children and add a saved flag to each post
+      let posts = tmpPosts.data.children.map((p: any) => {
+        p.data.saved = savedPosts.includes(p.data.name);
+        return p.data;
+      });
+    
+      setPosts(posts);
+    })();
+  }, []);
 
-    // flatten data.children and add a saved flag to each post
-    let posts = tmpPosts.data.children.map((p: any) => {
-      p.data.saved = savedPosts.includes(p.data.name);
-      return p.data;
-    });
-
-    this.setState({
-      posts
-    });
-  }
-
-  _sort(posts: Array<IPost>) {
+  const _sort = (posts: Array<IPost>) => {
     posts.sort((a: IPost, b: IPost) => {
       if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
       if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
@@ -46,31 +39,32 @@ class Home extends React.Component<{}, State> {
     });
 
     return posts;
-  }
+  };
 
-  sortPosts() {
-    const { sortDirection, posts } = this.state;
-
+  const sortPosts = () => {
     switch (sortDirection) {
       case "DF":
         {
-          let sorted = this._sort(posts);
+          let sorted = _sort(posts);
 
-          this.setState({ posts: sorted, sortDirection: "AZ" });
+          setPosts(sorted);
+          setSortDirection("AZ");
         }
         break;
       case "AZ":
         {
-          let sorted = this._sort(posts).reverse();
+          let sorted = _sort(posts).reverse();
 
-          this.setState({ posts: sorted, sortDirection: "ZA" });
+          setPosts(sorted);
+          setSortDirection("ZA");
         }
         break;
       case "ZA":
         {
-          let sorted = this._sort(posts);
+          let sorted = _sort(posts);
 
-          this.setState({ posts: sorted, sortDirection: "AZ" });
+          setPosts(sorted);
+          setSortDirection("AZ");
         }
         break;
 
@@ -78,23 +72,23 @@ class Home extends React.Component<{}, State> {
         console.error("unknown sort method");
         break;
     }
-  }
+  };
 
-  render() {
-    const { posts, sortDirection } = this.state;
-
-    return (
-      <div>
-        <Navbar />
-        <button className="posts-sort" onClick={this.sortPosts}>
-          {sortDirection}
-        </button>
-        <div className="posts">
-          {posts && posts.map((p: IPost) => <PostItem key={p.name} post={p} />)}
-        </div>
+  return (
+    <div>
+      <Navbar />
+      <button className="posts-sort" onClick={sortPosts}>
+        {sortDirection}
+      </button>
+      <div className="posts">
+        {
+          posts
+          ?  posts.map((p: IPost) => <PostItem key={p.name} post={p} />)
+          : null
+        }
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Home;
